@@ -1,0 +1,155 @@
+-- =====================================================
+-- BARANGAY MANAGEMENT SYSTEM - FULL DATABASE SCHEMA
+-- =====================================================
+
+-- ============================
+-- 1. PROFILES (auth-linked)
+-- ============================
+create table if not exists public.profiles (
+id uuid primary key references auth.users(id) on delete cascade,
+full_name text,
+role text check (role in ('resident','admin')),
+created_at timestamp with time zone default now()
+);
+
+alter table public.profiles enable row level security;
+
+-- RLS POLICIES
+create policy "Users can view their own profile"
+on public.profiles for select
+using (auth.uid() = id);
+
+create policy "Users can update their own profile"
+on public.profiles for update
+using (auth.uid() = id);
+
+create policy "Admins can view all profiles"
+on public.profiles for select
+using (exists (
+select 1 from public.profiles p
+where p.id = auth.uid() and p.role = 'admin'
+));
+
+
+-- ============================
+-- 2. RESIDENTS TABLE
+-- ============================
+create table if not exists public.residents (
+id bigserial primary key,
+name text not null,
+address text not null,
+created_at timestamp with time zone default now()
+);
+
+alter table public.residents enable row level security;
+
+-- POLICIES
+create policy "Admins can select residents"
+on public.residents for select
+using (true);
+
+create policy "Admins can insert residents"
+on public.residents for insert
+with check (true);
+
+create policy "Admins can update residents"
+on public.residents for update
+using (true);
+
+create policy "Admins can delete residents"
+on public.residents for delete
+using (true);
+
+
+-- ==============================
+-- 3. DOCUMENT REQUESTS
+-- ==============================
+create table if not exists public.document_requests (
+id bigserial primary key,
+user_id uuid references public.profiles(id) on delete cascade,
+type text not null,
+purpose text,
+status text default 'Pending',
+created_at timestamp with time zone default now()
+);
+
+alter table public.document_requests enable row level security;
+
+-- POLICIES
+create policy "Residents can insert their own requests"
+on public.document_requests for insert
+with check (auth.uid() = user_id);
+
+create policy "Residents can view their own requests"
+on public.document_requests for select
+using (auth.uid() = user_id);
+
+create policy "Admins can view all requests"
+on public.document_requests for select
+using (exists (
+select 1 from profiles where id = auth.uid() and role = 'admin'
+));
+
+create policy "Admins can update request status"
+on public.document_requests for update
+using (exists (
+select 1 from profiles where id = auth.uid() and role = 'admin'
+));
+
+
+-- ==============================
+-- 4. BLOTTER RECORDS
+-- ==============================
+create table if not exists public.blotters (
+id bigserial primary key,
+complainant text not null,
+respondent text not null,
+details text not null,
+created_at timestamp with time zone default now()
+);
+
+alter table public.blotters enable row level security;
+
+-- POLICIES
+create policy "Admins can manage blotter"
+on public.blotters for all
+using (true);
+
+
+-- ==============================
+-- 5. BARANGAY OFFICIALS
+-- ==============================
+create table if not exists public.officials (
+id bigserial primary key,
+name text not null,
+position text not null
+);
+
+alter table public.officials enable row level security;
+
+-- POLICIES
+create policy "Admins manage officials"
+on public.officials for all
+using (true);
+
+
+-- ==============================
+-- 6. ANNOUNCEMENTS
+-- ==============================
+create table if not exists public.announcements (
+id bigserial primary key,
+title text not null,
+body text not null,
+created_at timestamp with time zone default now()
+);
+
+alter table public.announcements enable row level security;
+
+-- POLICIES
+create policy "Everyone can read announcements"
+on public.announcements for select
+using (true);
+
+create policy "Admins can manage announcements"
+on public.announcements for all
+using (true);

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Barangay Management System - Sign Up</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body data-page="signup">
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <div class="auth-header">
+        <i class="fa-solid fa-id-card auth-icon"></i>
+        <h1>Create Barangay Account</h1>
+        <p>Sign up as resident or admin</p>
+      </div>
+      
+      <form id="signupForm">
+        <div class="form-group">
+          <label for="fullName"><i class="fa-solid fa-user"></i> Full Name</label>
+          <input type="text" id="fullName" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="signupEmail"><i class="fa-solid fa-envelope"></i> Email</label>
+          <input type="email" id="signupEmail" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="signupPassword"><i class="fa-solid fa-lock"></i> Password</label>
+          <input type="password" id="signupPassword" minlength="6" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="signupRole"><i class="fa-solid fa-user-tag"></i> Sign up as</label>
+          <select id="signupRole" required>
+            <option value="resident">Resident</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        
+        <button type="submit" class="btn primary-btn">
+          <i class="fa-solid fa-user-plus"></i> Create Account
+        </button>
+        
+        <p class="auth-footer">
+          Already have an account?
+          <a href="index.html">Login here</a>
+        </p>
+        
+        <p class="auth-message" id="signupMessage"></p>
+      </form>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="main.js"></script>
+</body>
+
+</html>

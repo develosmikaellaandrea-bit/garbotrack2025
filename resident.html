@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Resident Dashboard - Barangay System</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body data-page="resident">
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <i class="fa-solid fa-house-user"></i>
+        <span>Resident Portal</span>
+      </div>
+      <nav>
+        <a href="#" class="active"><i class="fa-solid fa-gauge"></i> Overview</a>
+        <a href="#myRequestsSection"><i class="fa-solid fa-file-lines"></i> My Documents</a>
+        <a href="#announcementsSection"><i class="fa-solid fa-bullhorn"></i> Announcements</a>
+      </nav>
+      <button id="logoutBtnResident" class="btn logout-btn">
+        <i class="fa-solid fa-right-from-bracket"></i> Logout
+      </button>
+    </aside>
+    
+    <main class="content">
+      <header class="content-header">
+        <h1>Welcome, <span id="residentName">Resident</span></h1>
+        <p>Access barangay services and announcements.</p>
+      </header>
+      
+      <section class="cards-row">
+        <div class="card stat-card">
+          <i class="fa-solid fa-file-circle-plus card-icon"></i>
+          <div>
+            <h3>Request Documents</h3>
+            <p>Barangay clearance, indigency, residency, permits</p>
+          </div>
+        </div>
+        <div class="card stat-card">
+          <i class="fa-solid fa-bullhorn card-icon"></i>
+          <div>
+            <h3>Stay Updated</h3>
+            <p>Latest barangay announcements</p>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Request document -->
+      <section id="requestDocSection" class="section-card">
+        <h2><i class="fa-solid fa-file-circle-plus"></i> Request a Document</h2>
+        <form id="requestDocumentForm" class="inline-form">
+          <select id="documentType" required>
+            <option value="Barangay Clearance">Barangay Clearance</option>
+            <option value="Certificate of Indigency">Certificate of Indigency</option>
+            <option value="Certificate of Residency">Certificate of Residency</option>
+            <option value="Business Permit">Business Permit</option>
+          </select>
+          <input type="text" id="documentPurpose" placeholder="Purpose" required />
+          <button type="submit" class="btn small-btn">
+            <i class="fa-solid fa-paper-plane"></i> Submit Request
+          </button>
+        </form>
+      </section>
+      
+      <!-- My requests -->
+      <section id="myRequestsSection" class="section-card">
+        <h2><i class="fa-solid fa-file-lines"></i> My Document Requests</h2>
+        <table class="table" id="myRequestsTable">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Purpose</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+      
+      <!-- Announcements -->
+      <section id="announcementsSection" class="section-card">
+        <h2><i class="fa-solid fa-bullhorn"></i> Barangay Announcements</h2>
+        <div id="residentAnnouncements" class="announcement-list">
+          <!-- JS -->
+        </div>
+      </section>
+    </main>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="main.js"></script>
+</body>
+
+</html>
